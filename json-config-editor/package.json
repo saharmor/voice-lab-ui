@@ -1,5 +1,6 @@
 {
-  "name": "json-config-editor",
+  "name": "voice-lab-ui",
+  "homepage": "https://saharmor.me/voice-lab-ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
