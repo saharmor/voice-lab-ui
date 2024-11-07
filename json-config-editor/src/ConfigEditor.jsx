@@ -13,6 +13,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooptip';
 
+import { Github } from 'lucide-react';
+
 const LLM_OPTIONS = [
   "gpt-3.5-turbo",
   "gpt-4o",
@@ -225,6 +227,48 @@ const ScenarioEditor = ({ name, scenario, onChange }) => (
           </div>
         </div>
 
+        <div>
+          <Label>Tested Prompts</Label>
+          <div className="space-y-2 mt-1">
+            {scenario.tested_components.agent_system_prompts.map((prompt, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={prompt}
+                  onChange={(e) => {
+                    const newPrompts = [...scenario.tested_components.agent_system_prompts];
+                    newPrompts[index] = e.target.value;
+                    onChange(newPrompts, 'prompts');
+                  }}
+                  className="flex-1"
+                />
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => {
+                    const newPrompts = scenario.tested_components.agent_system_prompts.filter((_, i) => i !== index);
+                    onChange(newPrompts, 'prompts');
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                const newPrompts = [...scenario.tested_components.agent_system_prompts];
+                newPrompts.push("");
+                onChange(newPrompts, 'agent_system_prompts');
+              }}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Prompt
+            </Button>
+          </div>
+        </div>
+
         {/* Agent Configuration Section */}
         <div>
           <Label className="text-lg font-semibold">Agent Configuration</Label>
@@ -320,11 +364,11 @@ const ScenarioEditor = ({ name, scenario, onChange }) => (
 const ConfigEditor = () => {
   const [evalMetrics, setEvalMetrics] = useState({
     task_completion: {
-      eval_prompt: "Evaluate whether the task was completed even if the goal was not achieved...",
+      eval_prompt: "Evaluate whether the task was completed even if the goal was not achieved, for example, the agent did everything possible to book a room but no rooms were available is still a success (True). On the other hand, if the agent try its best to complete the task, it is a failure (False).",
       eval_output: "success_flag"
     },
     goal_achieved: {
-      eval_prompt: "Evaluate whether the goal was achieved based on the conversation history...",
+      eval_prompt: "Evaluate whether the goal was achieved based on the conversation history and the success criteria, e.g. booking a room, booking a flight, etc.",
       eval_output: "success_flag"
     }
   });
@@ -333,7 +377,7 @@ const ConfigEditor = () => {
     angry_hotel_receptionist: {
       tested_components: {
         underlying_llms: ["gpt-4o-mini"],
-        agent_system_prompts: ["You are a voice agent trying to book a hotel room..."]
+        agent_system_prompts: ["You are a voice agent trying to book a hotel room for yourself on December 12th-24th. Make sure to confirm the price and booking reference when booking."]
       },
       agent: {
         initial_message: "Hi, I'd like to book a room",
@@ -525,6 +569,12 @@ const ConfigEditor = () => {
         </Button>
       </CardContent>
     </Card>
+
+    <footer className="flex justify-center items-center p-4">
+        <a href="https://github.com/saharmor/voice-lab-ui" target="_blank" rel="noopener noreferrer">
+          <Github className="h-6 w-6 text-gray-600"/>
+        </a>
+      </footer>
   </div>
 );
 };
