@@ -8,26 +8,7 @@ import { Github } from 'lucide-react';
 
 import MetricEditor from './MetricEditor';
 import ScenarioEditor from './ScenarioEditor';
-
-const LLM_OPTIONS = [
-  "gpt-3.5-turbo",
-  "gpt-4o",
-  "gpt-4o-mini",
-  "o1-mini",
-  "o1-preview"
-];
-
-const MOOD_OPTIONS = [
-  "neutral",
-  "happy",
-  "angry",
-  "frustrated",
-  "helpful",
-  "confused",
-  "professional",
-  "impatient"
-];
-
+import { LLM_OPTIONS } from './consts';
 
 const ConfigEditor = () => {
   const [evalMetrics, setEvalMetrics] = useState({

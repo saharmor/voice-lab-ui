@@ -3,9 +3,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Plus, Trash2, HelpCircle } from 'lucide-react';
 
-import { HelpCircle } from 'lucide-react';
 import KeyValueEditor from './KeyValueEditor';
+import { LLM_OPTIONS, MOOD_OPTIONS } from './consts';
 
 const ScenarioEditor = ({ name, scenario, onChange }) => (
     <Card className="mb-4">
@@ -138,9 +140,7 @@ const ScenarioEditor = ({ name, scenario, onChange }) => (
                 onChange={(items) => {
                   const newContext = {};
                   items.forEach(item => {
-                    if (item.key && item.value) {
-                      newContext[item.key] = item.value;
-                    }
+                    newContext[item.key] = item.value;
                   });
                   onChange(newContext, 'agent_context');
                 }}
@@ -198,9 +198,7 @@ const ScenarioEditor = ({ name, scenario, onChange }) => (
                 onChange={(items) => {
                   const newContext = {};
                   items.forEach(item => {
-                    if (item.key && item.value) {
                       newContext[item.key] = item.value;
-                    }
                   });
                   onChange(newContext, 'persona_context');
                 }}
